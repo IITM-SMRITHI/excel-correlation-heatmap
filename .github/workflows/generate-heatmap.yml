@@ -22,11 +22,7 @@ jobs:
         run: python build_heatmap.py
       
       - name: Commit heatmap
-        run: |
-          if [ -f heatmap.png ]; then
-            git config --global user.email "github-actions@github.com"
-            git config --global user.name "github-actions"
-            git add heatmap.png
-            git commit -m "Generate heatmap.png" || true
-            git push
-          fi
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Generate heatmap.png
+          file_pattern: heatmap.png
