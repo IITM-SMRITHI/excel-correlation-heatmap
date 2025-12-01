@@ -1,0 +1,40 @@
+name: Generate Heatmap
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas matplotlib seaborn numpy
+      
+      - name: Generate heatmap
+        run: python create_heatmap.py
+      
+      - name: Commit heatmap
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add heatmap.png
+          git commit -m "Auto-generated heatmap.png from correlation matrix" || echo "No changes to commit"
+          git push
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: heatmap
+          path: heatmap.png
