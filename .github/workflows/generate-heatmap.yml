@@ -1,11 +1,9 @@
 name: Generate Heatmap
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -16,9 +14,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-                
-    - name: Install dependencies
-      run: pip install Pillow
+      
+      - name: Install dependencies
+        run: pip install Pillow
       
       - name: Generate heatmap
         run: python build_heatmap.py
